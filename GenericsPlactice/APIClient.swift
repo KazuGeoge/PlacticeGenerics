@@ -7,12 +7,11 @@
 //
 
 import Alamofire
+import SwiftyJSON
 
-class APISession: NSObject {
+class APIClient: NSObject {
     
-     var article: ModelObject = Article()
-    
-    func call<T>(_ url: URL, success: (T) -> Void) {
+    func call<T: ModelObject>(_ url: URL, success: @escaping (T) -> Void) {
         
          Alamofire.request(url, method: .get, encoding: JSONEncoding.default).responseData{ response in
             
@@ -20,8 +19,9 @@ class APISession: NSObject {
             case .success:
                 
                 if let value = response.result.value {
-//                    let a = self.article.decode(data: value)
-                    success(self.article.decode(data: value))
+                    let jsonData = JSON(value)
+                 
+                    success(T.decode(data: jsonData))
                 }
                 
             case . failure(let error):

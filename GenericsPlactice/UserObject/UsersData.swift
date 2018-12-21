@@ -1,14 +1,16 @@
 //
-//  UserModel.swift
+//  Article.swift
 //  GenericsPlactice
 //
 //  Created by 城島一輝 on 2018/12/16.
 //  Copyright © 2018 城島一輝. All rights reserved.
 //
 
+import UIKit
 import SwiftyJSON
 
-struct UserModel {
+struct UsersData {
+    
     var nickname: String?
     var user_id: Int?
     
@@ -20,5 +22,10 @@ struct UserModel {
     init(json: JSON) {
         self.nickname = json["user"]["nickname"].string
         self.user_id = json["user"]["user_id"].int
+    }
+  
+    static func decode(data: JSON) -> UsersData {
+       
+        return UsersData(json: data)
     }
 }
